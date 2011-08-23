@@ -49,7 +49,7 @@ configure(PRESETS['Default']);
 
 var PI           = Math.PI;
 var TWO_PI       = Math.PI * 2;
-var BRANCH_COUNT = 0;
+var BRANCHES     = [];
 
 function random(min, max) {
 	return min + Math.random() * (max - min);
@@ -62,9 +62,6 @@ function random(min, max) {
  */
 
 var Branch = function(x, y, theta, radius, scale) {
-
-	// Increment global count
-	BRANCH_COUNT++;
 
 	this.x       = x;
 	this.y       = y;
@@ -86,11 +83,6 @@ Branch.prototype = {
 
 	update: function() {
 
-		// Update children
-		for(var i = 0, n = this.children.length; i < n; i++) {
-			this.children[i].update();
-		}
-
 		if(this.growing) {
 			
 			this.ox = this.x;
@@ -104,7 +96,7 @@ Branch.prototype = {
 			this.scale  *= this.shrinkRate;
 
 			// Branch
-			if(BRANCH_COUNT < CONFIG.MAX_CONCURRENT && Math.random() < CONFIG.BRANCH_PROBABILITY) {
+			if(BRANCHES.length < CONFIG.MAX_CONCURRENT && Math.random() < CONFIG.BRANCH_PROBABILITY) {
 				
 				var offset = random(CONFIG.MIN_DIVERGENCE, CONFIG.MAX_DIVERGENCE);
 				var theta  = this.theta + offset * (Math.random() < 0.5 ? 1 : -1);
@@ -112,23 +104,17 @@ Branch.prototype = {
 				var radius = this.radius * scale;
 				var branch = new Branch(this.x, this.y, theta, radius, scale);
 
-				this.children.push(branch);
+				BRANCHES.push(branch);
 			}
 
 			// Limit
 			if(this.radius * this.scale <= CONFIG.MIN_RADIUS) {
 				this.growing = false;
-				BRANCH_COUNT--;
 			}
 		}
 	},
 
 	render: function(context) {
-
-		// Render children
-		for(var i = 0, n = this.children.length; i < n; i++) {
-			this.children[i].render(context);
-		}
 
 		if(this.growing) {
 
@@ -152,7 +138,6 @@ Branch.prototype = {
 			context.strokeStyle = '#000';
 			context.lineCap = 'round';
 			context.stroke();
-
 			context.closePath();
 			
 			// Draw fill
@@ -166,18 +151,12 @@ Branch.prototype = {
 			context.stroke();
 
 			context.closePath();
-
 			context.restore();
 		}
 	},
 
 	destroy: function() {
 		
-		for(var i = 0, n = this.children.length; i < n; i++) {
-			this.children[i].destroy();
-		}
-
-		this.children = [];
 	}
 };
 
@@ -193,7 +172,6 @@ var Recursion = new function() {
 	var $canvas  = $('#canvas');
 	var canvas   = $canvas[0];
 	var context  = canvas.getContext('2d');
-	var branches = [];
 
 	function spawn(x, y) {
 
@@ -202,7 +180,7 @@ var Recursion = new function() {
 		for(var i = 0; i < CONFIG.NUM_BRANCHES; i++) {
 			theta  = Math.random() * TWO_PI;
 			radius = CONFIG.MAX_RADIUS;
-			branches.push(new Branch(x, y, theta, radius));
+			BRANCHES.push(new Branch(x, y, theta, radius));
 		}
 	}
 
@@ -210,12 +188,19 @@ var Recursion = new function() {
 
 		requestAnimFrame(update);
 
-		var branch;
+		var i, n, branch;
 
-		for(var i = 0, n = branches.length; i < n; i++) {
-			branch = branches[i];
+		for(i = 0, n = BRANCHES.length; i < n; i++) {
+			branch = BRANCHES[i];
 			branch.update();
 			branch.render(context);
+		}
+
+		// Strip dead branches
+		for(i = BRANCHES.length - 1; i >= 0; i--) {
+			if(!BRANCHES[i].growing) {
+				BRANCHES.splice(i,1);
+			}
 		}
 	}
 
@@ -250,12 +235,11 @@ var Recursion = new function() {
 
 		reset: function() {
 
-			for(var i = 0, n = branches.length; i < n; i++) {
-				branches[i].destroy();
+			for(var i = 0, n = BRANCHES.length; i < n; i++) {
+				BRANCHES[i].destroy();
 			}
 
-			BRANCH_COUNT = 0;
-			branches = [];
+			BRANCHES = [];
 		},
 
 		clear: function() {
