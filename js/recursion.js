@@ -242,6 +242,32 @@ var Recursion = new function() {
 			BRANCHES = [];
 		},
 
+		save: function() {
+			
+			var image = canvas.toDataURL('image/png');
+
+			var win = window.open('about:blank', '_blank', 'width=1000,height=700');
+
+			var html = $('<html>');
+			var head = $('<head>');
+			var body = $('<body>');
+
+			body.css({
+				background: '#f2f2f2',
+				padding: 0,
+				margin: 0
+			});
+
+			head.append($('<title>Recursion &raquo Right Click &amp; Save the Image Below</title>'));
+			body.append($('<img src="' + image + '"/>'));
+
+			html.append(head);
+			html.append(body);
+
+			win.document.write('<!DOCTYPE html>' + html.html());
+			win.document.close();
+		},
+
 		clear: function() {
 			canvas.width = canvas.width;
 		}
@@ -290,6 +316,7 @@ GUI.add(preset, 'key').name('Configuration').options(keys).onChange(function(){
 	GUI.listenAll();
 });
 GUI.add(Recursion, 'init').name('Restart Simulation');
+GUI.add(Recursion, 'save').name('Save Image');
 GUI.add(this, 'saveConfig').name('Save Settings');
 
 console.log(GUI.constrain);
