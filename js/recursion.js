@@ -331,7 +331,7 @@ var Recursion = new function() {
 
 	function update() {
 
-		cancelRequestAnimFrame();
+		//cancelRequestAnimFrame(update);
 		requestAnimFrame(update);
 
 		var i, n, branch;
