@@ -18,10 +18,10 @@ html, body {
 }
 
 #output li {
-	background: #222;
+	background: rgba(20,20,20,0.9);
 	list-style: none;
 	margin-right: 1px;
-	line-height: 24px;
+	line-height: 22px;
 	padding: 0px 10px;
 	display: block;
 	float: left;

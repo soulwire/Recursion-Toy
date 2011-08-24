@@ -8,39 +8,21 @@
 var CONFIG  = {};
 var PRESETS = {};
 var RENDER_MODES = {
+	Darkness:  'darkness',
 	Segmented: 'segmented',
-	Sketched:  'sketched',
-	Darkness:  'darkness'
+	Sketched:  'sketched'
 };
 
-CONFIG.RENDER_MODE = RENDER_MODES.Darkness;
-
-PRESETS['Default'] = {
-
-	BRANCH_PROBABILITY:  0.15,
-	MAX_CONCURRENT:      800,
-	NUM_BRANCHES:        2,
-
-	MIN_RADIUS:          0.1,
-	MAX_RADIUS:          20.0,
-
-	MIN_WANDER_STEP:     0.1,
-	MAX_WANDER_STEP:     0.3,
-	
-	MIN_GROWTH_RATE:     5.0,
-	MAX_GROWTH_RATE:     9.0,
-
-	MIN_SHRINK_RATE:     0.98,
-	MAX_SHRINK_RATE:     0.99,
-
-	MIN_DIVERGENCE:      0.01,
-	MAX_DIVERGENCE:      0.05
-};
-
-PRESETS['Roots']     = {BRANCH_PROBABILITY:0.05,MAX_CONCURRENT:800,NUM_BRANCHES:3,MIN_RADIUS:0.1,MAX_RADIUS:50,MIN_WANDER_STEP:0.28,MAX_WANDER_STEP:0.7000000000000001,MIN_GROWTH_RATE:5,MAX_GROWTH_RATE:9,MIN_SHRINK_RATE:0.98,MAX_SHRINK_RATE:0.99,MIN_DIVERGENCE:0.01,MAX_DIVERGENCE:0.05};
-PRESETS['Roots 2']   = {BRANCH_PROBABILITY:0.09,MAX_CONCURRENT:500,NUM_BRANCHES:5,MIN_RADIUS:0.1,MAX_RADIUS:50,MIN_WANDER_STEP:0.1,MAX_WANDER_STEP:0.2,MIN_GROWTH_RATE:3.7,MAX_GROWTH_RATE:8,MIN_SHRINK_RATE:0.97,MAX_SHRINK_RATE:0.99,MIN_DIVERGENCE:0.01,MAX_DIVERGENCE:0.05};
-PRESETS['Long']      = {BRANCH_PROBABILITY:1,MAX_CONCURRENT:350,NUM_BRANCHES:3,MIN_RADIUS:0.1,MAX_RADIUS:50,MIN_WANDER_STEP:0.1,MAX_WANDER_STEP:0.72,MIN_GROWTH_RATE:0.9,MAX_GROWTH_RATE:6.15,MIN_SHRINK_RATE:0.935,MAX_SHRINK_RATE:0.999,MIN_DIVERGENCE:0.01,MAX_DIVERGENCE:0.05};
-PRESETS['Tree']      = {BRANCH_PROBABILITY:0.06,MAX_CONCURRENT:437,NUM_BRANCHES:1,MIN_RADIUS:0.1,MAX_RADIUS:50,MIN_WANDER_STEP:0.05,MAX_WANDER_STEP:0.25,MIN_GROWTH_RATE:5,MAX_GROWTH_RATE:9,MIN_SHRINK_RATE:0.98,MAX_SHRINK_RATE:0.99,MIN_DIVERGENCE:0,MAX_DIVERGENCE:0.1};
+PRESETS['Vines']          = {RENDER_MODE:RENDER_MODES.Darkness,BRANCH_PROBABILITY:0.2572,MAX_CONCURRENT:388,NUM_BRANCHES:4,MIN_RADIUS:0.1,MAX_RADIUS:69,MIN_WANDER_STEP:1.0184,MAX_WANDER_STEP:0.1702,MIN_GROWTH_RATE:10.6214,MAX_GROWTH_RATE:11.8251,MIN_SHRINK_RATE:0.99656,MAX_SHRINK_RATE:0.91265,MIN_DIVERGENCE:0.5101,MAX_DIVERGENCE:0.37466};
+PRESETS['Fibrous']        = {RENDER_MODE:RENDER_MODES.Segmented,BRANCH_PROBABILITY:0.05,MAX_CONCURRENT:800,NUM_BRANCHES:3,MIN_RADIUS:0.1,MAX_RADIUS:50,MIN_WANDER_STEP:0.28,MAX_WANDER_STEP:0.7,MIN_GROWTH_RATE:5,MAX_GROWTH_RATE:9,MIN_SHRINK_RATE:0.98,MAX_SHRINK_RATE:0.99,MIN_DIVERGENCE:0.01,MAX_DIVERGENCE:0.05};
+PRESETS['Graffiti']       = {RENDER_MODE:RENDER_MODES.Sketched,BRANCH_PROBABILITY:0.05,MAX_CONCURRENT:500,NUM_BRANCHES:6,MIN_RADIUS:0.15,MAX_RADIUS:70,MIN_WANDER_STEP:0.1197,MAX_WANDER_STEP:1.8269,MIN_GROWTH_RATE:13.66,MAX_GROWTH_RATE:17.35,MIN_SHRINK_RATE:0.95,MAX_SHRINK_RATE:0.98,MIN_DIVERGENCE:1.3268,MAX_DIVERGENCE:1.3885};
+PRESETS['Knarled']        = {RENDER_MODE:RENDER_MODES.Darkness,BRANCH_PROBABILITY:0.09,MAX_CONCURRENT:500,NUM_BRANCHES:5,MIN_RADIUS:0.1,MAX_RADIUS:100,MIN_WANDER_STEP:0.1,MAX_WANDER_STEP:0.2,MIN_GROWTH_RATE:3.7,MAX_GROWTH_RATE:10,MIN_SHRINK_RATE:0.97,MAX_SHRINK_RATE:0.99,MIN_DIVERGENCE:0.01,MAX_DIVERGENCE:0.05};
+PRESETS['Beech Tree']     = {RENDER_MODE:RENDER_MODES.Darkness,BRANCH_PROBABILITY:0.085,MAX_CONCURRENT:500,NUM_BRANCHES:1,MIN_RADIUS:0.1,MAX_RADIUS:40,MIN_WANDER_STEP:0.1599,MAX_WANDER_STEP:0.4,MIN_GROWTH_RATE:8,MAX_GROWTH_RATE:15,MIN_SHRINK_RATE:0.98,MAX_SHRINK_RATE:0.982,MIN_DIVERGENCE:0.31,MAX_DIVERGENCE:0.87};
+PRESETS['Frost']          = {RENDER_MODE:RENDER_MODES.Sketched,BRANCH_PROBABILITY:0.09,MAX_CONCURRENT:1000,NUM_BRANCHES:6,MIN_RADIUS:0.1,MAX_RADIUS:40,MIN_WANDER_STEP:0,MAX_WANDER_STEP:0,MIN_GROWTH_RATE:9.2,MAX_GROWTH_RATE:9.8,MIN_SHRINK_RATE:0.97,MAX_SHRINK_RATE:0.97,MIN_DIVERGENCE:0.4,MAX_DIVERGENCE:0.8};
+PRESETS['Wooly']          = {RENDER_MODE:RENDER_MODES.Segmented,BRANCH_PROBABILITY:0.07,MAX_CONCURRENT:348,NUM_BRANCHES:9,MIN_RADIUS:1.5,MAX_RADIUS:99,MIN_WANDER_STEP:0.5093,MAX_WANDER_STEP:2.654,MIN_GROWTH_RATE:7.8279,MAX_GROWTH_RATE:18.2956,MIN_SHRINK_RATE:0.94489,MAX_SHRINK_RATE:0.98716,MIN_DIVERGENCE:1.4656,MAX_DIVERGENCE:2.6998};
+PRESETS['Vegetable Root'] = {RENDER_MODE:RENDER_MODES.Darkness,BRANCH_PROBABILITY:0.06,MAX_CONCURRENT:437,NUM_BRANCHES:1,MIN_RADIUS:0.1,MAX_RADIUS:100,MIN_WANDER_STEP:0.05,MAX_WANDER_STEP:0.25,MIN_GROWTH_RATE:5,MAX_GROWTH_RATE:9,MIN_SHRINK_RATE:0.98,MAX_SHRINK_RATE:0.99,MIN_DIVERGENCE:0,MAX_DIVERGENCE:0.1};
+PRESETS['Hairball']       = {RENDER_MODE:RENDER_MODES.Sketched,BRANCH_PROBABILITY:0.6,MAX_CONCURRENT:800,MAX_DIVERGENCE:2.1,MAX_GROWTH_RATE:4.5,MAX_RADIUS:30,MAX_SHRINK_RATE:0.992,MAX_WANDER_STEP:0.2,MIN_DIVERGENCE:2,MIN_GROWTH_RATE:3.5,MIN_RADIUS:0.5,MIN_SHRINK_RATE:0.992,MIN_WANDER_STEP:0.1,NUM_BRANCHES:7};
+PRESETS['Intenstines']    = {RENDER_MODE:RENDER_MODES.Darkness,BRANCH_PROBABILITY:1,MAX_CONCURRENT:350,NUM_BRANCHES:3,MIN_RADIUS:0.1,MAX_RADIUS:100,MIN_WANDER_STEP:0.1,MAX_WANDER_STEP:0.72,MIN_GROWTH_RATE:0.9,MAX_GROWTH_RATE:6.15,MIN_SHRINK_RATE:0.935,MAX_SHRINK_RATE:0.999,MIN_DIVERGENCE:0.01,MAX_DIVERGENCE:0.05};
 
 function configure(settings) {
 	for(var prop in settings) {
@@ -48,7 +30,7 @@ function configure(settings) {
 	}
 }
 
-configure(PRESETS['Tree']);
+configure(PRESETS['Vines']);
 
 /**
  * --------------------
@@ -97,7 +79,7 @@ var Branch = function(x, y, theta, radius, scale, generation) {
 Branch.prototype = {
 
 	update: function() {
-
+		
 		if(this.growing) {
 			
 			this.ox = this.x;
@@ -154,9 +136,9 @@ Branch.prototype = {
 					context.lineTo(this.x, this.y);
 					
 					if(radius > 5.0) {
-						context.shadowOffsetX = 2;
-						context.shadowOffsetY = 2;
-						context.shadowBlur    = 2 * scale;
+						context.shadowOffsetX = 1;
+						context.shadowOffsetY = 1;
+						context.shadowBlur    = scale;
 						context.shadowColor   = 'rgba(0,0,0,0.05)';	
 					}
 					
@@ -182,13 +164,16 @@ Branch.prototype = {
 				
 				case RENDER_MODES.Sketched :
 
+					radius *= 0.5;
+					radius += 0.5;
+
 					x1 = this.x + Math.cos(this.theta - HALF_PI) * radius;
 					x2 = this.x + Math.cos(this.theta + HALF_PI) * radius;
 
 					y1 = this.y + Math.sin(this.theta - HALF_PI) * radius;
 					y2 = this.y + Math.sin(this.theta + HALF_PI) * radius;
 
-					context.lineWidth = 0.25 + scale;
+					context.lineWidth = 0.5 + scale;
 					context.strokeStyle = '#000';
 					context.fillStyle = '#FFF';
 					context.lineCap = 'round';
@@ -229,6 +214,8 @@ Branch.prototype = {
 					break;
 
 				case RENDER_MODES.Darkness :
+
+					radius *= 0.5;
 
 					x1 = this.x + Math.cos(this.theta - HALF_PI) * radius;
 					x2 = this.x + Math.cos(this.theta + HALF_PI) * radius;
@@ -314,9 +301,10 @@ var Recursion = new function() {
 		var theta, radius;
 
 		for(var i = 0; i < CONFIG.NUM_BRANCHES; i++) {
-			theta  = Math.random() * TWO_PI;
+			//theta  = Math.random() * TWO_PI;
+			theta = (i / CONFIG.NUM_BRANCHES) * TWO_PI;
 			radius = CONFIG.MAX_RADIUS;
-			BRANCHES.push(new Branch(x, y, theta, radius));
+			BRANCHES.push(new Branch(x, y, theta - HALF_PI, radius));
 		}
 	}
 
@@ -430,37 +418,60 @@ function saveConfig() {
 var preset = {key:''}, keys = {};
 for(var i in PRESETS) { keys[i] = i; }
 
-var GUI = new DAT.GUI({
-	width: 320
-});
-
-GUI.name('Recursion Settings');
-
-// Config
-GUI.add(CONFIG, 'NUM_BRANCHES').name('Trunk Count').min(1).max(20).step(1);
-GUI.add(CONFIG, 'MAX_CONCURRENT').name('Max Concurrent').min(10).max(1000).step(1);
-GUI.add(CONFIG, 'BRANCH_PROBABILITY').name('Branch Probability').min(0.01).max(1.0).step(0.01);
-GUI.add(CONFIG, 'MIN_RADIUS').name('Radius (Min)').min(0.1).max(50);
-GUI.add(CONFIG, 'MAX_RADIUS').name('Radius (Max)').min(0.1).max(50);
-GUI.add(CONFIG, 'MIN_WANDER_STEP').name('Wander (Min)').min(0.0).max(PI).step(0.01);
-GUI.add(CONFIG, 'MAX_WANDER_STEP').name('Wander (Max)').min(0.0).max(PI).step(0.01);
-GUI.add(CONFIG, 'MIN_GROWTH_RATE').name('Growth (Min)').min(0.1).max(20).step(0.1);
-GUI.add(CONFIG, 'MAX_GROWTH_RATE').name('Growth (Max)').min(0.1).max(20).step(0.1);
-GUI.add(CONFIG, 'MIN_SHRINK_RATE').name('Shrink (Min)').min(0.9).max(0.999).step(0.005);
-GUI.add(CONFIG, 'MAX_SHRINK_RATE').name('Shrink (Max)').min(0.9).max(0.999).step(0.005);
-GUI.add(CONFIG, 'MIN_DIVERGENCE').name('Divergeence (Min)').min(0.0).max(PI).step(0.01);
-GUI.add(CONFIG, 'MAX_DIVERGENCE').name('Divergeence (Max)').min(0.0).max(PI).step(0.01);
-GUI.add(CONFIG, 'RENDER_MODE').name('Render Mode').options(RENDER_MODES).onChange(Recursion.init);
-
-// Extra
-GUI.add(preset, 'key').name('Configuration').options(keys).onChange(function(){
-	configure(PRESETS[preset.key]);
+function randomise() {
+	CONFIG.BRANCH_PROBABILITY  = random(0.01,1.0);
+	CONFIG.MAX_CONCURRENT      = random(10,1000);
+	CONFIG.NUM_BRANCHES        = random(1,20);
+	CONFIG.MIN_RADIUS          = random(0.1,2.0);
+	CONFIG.MAX_RADIUS          = random(CONFIG.MIN_RADIUS,100);
+	CONFIG.MIN_WANDER_STEP     = random(0.1,PI);
+	CONFIG.MAX_WANDER_STEP     = random(CONFIG.MIN_WANDER_STEP,PI);
+	CONFIG.MIN_GROWTH_RATE     = random(0.1,20);
+	CONFIG.MAX_GROWTH_RATE     = random(CONFIG.MIN_GROWTH_RATE,20);
+	CONFIG.MIN_SHRINK_RATE     = random(0.9,0.999);
+	CONFIG.MAX_SHRINK_RATE     = random(CONFIG.MIN_SHRINK_RATE,0.999);
+	CONFIG.MIN_DIVERGENCE      = random(0.0,PI);
+	CONFIG.MAX_DIVERGENCE      = random(CONFIG.MIN_DIVERGENCE,PI);
 	Recursion.init();
 	GUI.listenAll();
+}
+
+var GUI1, GUI2;
+
+GUI1 = new DAT.GUI({width: 300});
+GUI1.name('Recursion Settings');
+
+// Config
+GUI1.add(CONFIG, 'NUM_BRANCHES').name('Trunk Count').min(1).max(20).step(1);
+GUI1.add(CONFIG, 'MAX_CONCURRENT').name('Max Concurrent').min(10).max(1000).step(1);
+GUI1.add(CONFIG, 'BRANCH_PROBABILITY').name('Branch Probability').min(0.01).max(1.0).step(0.01);
+GUI1.add(CONFIG, 'MIN_RADIUS').name('Radius (Min)').min(0.1).max(100);
+GUI1.add(CONFIG, 'MAX_RADIUS').name('Radius (Max)').min(0.1).max(100);
+GUI1.add(CONFIG, 'MIN_WANDER_STEP').name('Wander (Min)').min(0.0).max(PI).step(0.01);
+GUI1.add(CONFIG, 'MAX_WANDER_STEP').name('Wander (Max)').min(0.0).max(PI).step(0.01);
+GUI1.add(CONFIG, 'MIN_GROWTH_RATE').name('Growth (Min)').min(0.1).max(20).step(0.1);
+GUI1.add(CONFIG, 'MAX_GROWTH_RATE').name('Growth (Max)').min(0.1).max(20).step(0.1);
+GUI1.add(CONFIG, 'MIN_SHRINK_RATE').name('Shrink (Min)').min(0.9).max(0.999).step(0.005);
+GUI1.add(CONFIG, 'MAX_SHRINK_RATE').name('Shrink (Max)').min(0.9).max(0.999).step(0.005);
+GUI1.add(CONFIG, 'MIN_DIVERGENCE').name('Divergeence (Min)').min(0.0).max(PI).step(0.01);
+GUI1.add(CONFIG, 'MAX_DIVERGENCE').name('Divergeence (Max)').min(0.0).max(PI).step(0.01);
+
+GUI2 = new DAT.GUI({width: 250});
+GUI2.name('General Settings');
+
+
+GUI2.add(preset, 'key').name('Preset Behaviors').options(keys).onChange(function(){
+	configure(PRESETS[preset.key]);
+	Recursion.init();
+	GUI1.listenAll();
+	GUI2.listenAll();
 });
-GUI.add(Recursion, 'init').name('Restart Simulation');
-GUI.add(Recursion, 'save').name('Save Image');
-GUI.add(this, 'saveConfig').name('Save Settings');
+GUI2.add(CONFIG, 'RENDER_MODE').name('Render Style').options(RENDER_MODES).onChange(Recursion.init);
+GUI2.add(Recursion, 'save').name('Save as PNG');
+GUI2.add(Recursion, 'init').name('Clear & Regenerate');
+
+//GUI.add(this, 'randomise').name('Randomise');
+//GUI.add(this, 'saveConfig').name('Save Config');
 
 /**
  * --------------------
