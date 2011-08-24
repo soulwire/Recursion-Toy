@@ -20,9 +20,13 @@ html, body {
 #output li {
 	background: rgba(20,20,20,0.9);
 	list-style: none;
-	margin: 1px 0px 0px 1px;
+	margin-right: 1px;
 	line-height: 22px;
 	padding: 0px 10px;
 	display: block;
 	float: left;
+}
+
+.guidat {
+	margin-right: 0px !important;
 }
