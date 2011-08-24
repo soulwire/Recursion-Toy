@@ -482,6 +482,7 @@ GUI.add(preset, 'key').name('Preset Behaviors').options(keys).onChange(function(
 });
 GUI.add(CONFIG, 'RENDER_MODE').name('Render Style').options(RENDER_MODES).onChange(Recursion.init);
 GUI.add(Recursion, 'save').name('Save as PNG');
+GUI.add(Recursion, 'clear').name('Clear').onFire(Recursion.reset);
 GUI.add(Recursion, 'init').name('Clear & Regenerate');
 
 //GUI.add(this, 'randomise').name('Randomise');
