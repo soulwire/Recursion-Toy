@@ -436,39 +436,32 @@ function randomise() {
 	GUI.listenAll();
 }
 
-var GUI1, GUI2;
-
-GUI1 = new DAT.GUI({width: 300});
-GUI1.name('Recursion Settings');
+var GUI = new DAT.GUI({width: 330});
+GUI.name('Recursion Settings');
 
 // Config
-GUI1.add(CONFIG, 'NUM_BRANCHES').name('Trunk Count').min(1).max(20).step(1);
-GUI1.add(CONFIG, 'MAX_CONCURRENT').name('Max Concurrent').min(10).max(1000).step(1);
-GUI1.add(CONFIG, 'BRANCH_PROBABILITY').name('Branch Probability').min(0.01).max(1.0).step(0.01);
-GUI1.add(CONFIG, 'MIN_RADIUS').name('Radius (Min)').min(0.1).max(100);
-GUI1.add(CONFIG, 'MAX_RADIUS').name('Radius (Max)').min(0.1).max(100);
-GUI1.add(CONFIG, 'MIN_WANDER_STEP').name('Wander (Min)').min(0.0).max(PI).step(0.01);
-GUI1.add(CONFIG, 'MAX_WANDER_STEP').name('Wander (Max)').min(0.0).max(PI).step(0.01);
-GUI1.add(CONFIG, 'MIN_GROWTH_RATE').name('Growth (Min)').min(0.1).max(20).step(0.1);
-GUI1.add(CONFIG, 'MAX_GROWTH_RATE').name('Growth (Max)').min(0.1).max(20).step(0.1);
-GUI1.add(CONFIG, 'MIN_SHRINK_RATE').name('Shrink (Min)').min(0.9).max(0.999).step(0.005);
-GUI1.add(CONFIG, 'MAX_SHRINK_RATE').name('Shrink (Max)').min(0.9).max(0.999).step(0.005);
-GUI1.add(CONFIG, 'MIN_DIVERGENCE').name('Divergeence (Min)').min(0.0).max(PI).step(0.01);
-GUI1.add(CONFIG, 'MAX_DIVERGENCE').name('Divergeence (Max)').min(0.0).max(PI).step(0.01);
+GUI.add(CONFIG, 'NUM_BRANCHES').name('Trunk Count').min(1).max(20).step(1);
+GUI.add(CONFIG, 'MAX_CONCURRENT').name('Max Concurrent').min(10).max(1000).step(1);
+GUI.add(CONFIG, 'BRANCH_PROBABILITY').name('Branch Probability').min(0.01).max(1.0).step(0.01);
+GUI.add(CONFIG, 'MIN_RADIUS').name('Radius (Min)').min(0.1).max(100);
+GUI.add(CONFIG, 'MAX_RADIUS').name('Radius (Max)').min(0.1).max(100);
+GUI.add(CONFIG, 'MIN_WANDER_STEP').name('Wander (Min)').min(0.0).max(PI).step(0.01);
+GUI.add(CONFIG, 'MAX_WANDER_STEP').name('Wander (Max)').min(0.0).max(PI).step(0.01);
+GUI.add(CONFIG, 'MIN_GROWTH_RATE').name('Growth (Min)').min(0.1).max(20).step(0.1);
+GUI.add(CONFIG, 'MAX_GROWTH_RATE').name('Growth (Max)').min(0.1).max(20).step(0.1);
+GUI.add(CONFIG, 'MIN_SHRINK_RATE').name('Shrink (Min)').min(0.9).max(0.999).step(0.005);
+GUI.add(CONFIG, 'MAX_SHRINK_RATE').name('Shrink (Max)').min(0.9).max(0.999).step(0.005);
+GUI.add(CONFIG, 'MIN_DIVERGENCE').name('Divergeence (Min)').min(0.0).max(PI).step(0.01);
+GUI.add(CONFIG, 'MAX_DIVERGENCE').name('Divergeence (Max)').min(0.0).max(PI).step(0.01);
 
-GUI2 = new DAT.GUI({width: 250});
-GUI2.name('General Settings');
-
-
-GUI2.add(preset, 'key').name('Preset Behaviors').options(keys).onChange(function(){
+GUI.add(preset, 'key').name('Preset Behaviors').options(keys).onChange(function(){
 	configure(PRESETS[preset.key]);
 	Recursion.init();
-	GUI1.listenAll();
-	GUI2.listenAll();
+	GUI.listenAll();
 });
-GUI2.add(CONFIG, 'RENDER_MODE').name('Render Style').options(RENDER_MODES).onChange(Recursion.init);
-GUI2.add(Recursion, 'save').name('Save as PNG');
-GUI2.add(Recursion, 'init').name('Clear & Regenerate');
+GUI.add(CONFIG, 'RENDER_MODE').name('Render Style').options(RENDER_MODES).onChange(Recursion.init);
+GUI.add(Recursion, 'save').name('Save as PNG');
+GUI.add(Recursion, 'init').name('Clear & Regenerate');
 
 //GUI.add(this, 'randomise').name('Randomise');
 //GUI.add(this, 'saveConfig').name('Save Config');
