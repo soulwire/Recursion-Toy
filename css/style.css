@@ -27,6 +27,12 @@ html, body {
 	float: left;
 }
 
+#output li a {
+	border-bottom: 1px dotted #999;
+	text-decoration: none;
+	color: #FFF;
+}
+
 .guidat {
 	margin-right: 0px !important;
 }
