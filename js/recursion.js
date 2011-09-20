@@ -35,6 +35,102 @@ var RENDER_MODES = {
 	Sketched:  'sketched'
 };
 
+var DEFAULTS = {
+    
+    // Hue
+    START_HUE: {
+        MIN: 0,
+        MAX: 360,
+        DEF: 0,
+        STEP: 0.1,
+        NAME: 'Hue (start)'
+    },
+    END_HUE: {
+        MIN: 0,
+        MAX: 360,
+        DEF: 0,
+        STEP: 0.1,
+        NAME: 'Hue (end)'
+    },
+    STEP_HUE: {
+        MIN: 0.00001,
+        MAX: 10.0,
+        DEF: 1,
+        STEP: 0.00001,
+        NAME: 'Hue (step)'
+    },
+    
+    // Saturation
+    START_SATURATION: {
+        MIN: 0,
+        MAX: 100,
+        DEF: 0,
+        STEP: 0.01,
+        NAME: 'Saturation (start)'
+    },
+    END_SATURATION: {
+        MIN: 0,
+        MAX: 100,
+        DEF: 0,
+        STEP: 0.01,
+        NAME: 'Saturation (end)'
+    },
+    STEP_SATURATION: {
+        MIN: 0.00001,
+        MAX: 10.0,
+        DEF: 0.1,
+        STEP: 0.00001,
+        NAME: 'Saturation (step)'
+    },
+    
+    // Lightness
+    START_LIGHTNESS: {
+        MIN: 0,
+        MAX: 100,
+        DEF: 0,
+        STEP: 0.01,
+        NAME: 'Lightness (start)'
+    },
+    END_LIGHTNESS: {
+        MIN: 0,
+        MAX: 100,
+        DEF: 0,
+        STEP: 0.01,
+        NAME: 'Lightness (end)'
+    },
+    STEP_LIGHTNESS: {
+        MIN: 0.00001,
+        MAX: 10.0,
+        DEF: 0.1,
+        STEP: 0.00001,
+        NAME: 'Lightness (step)'
+    },
+    
+    // Alpha
+    START_ALPHA: {
+        MIN: 0,
+        MAX: 1,
+        DEF: 1,
+        STEP: 0.0001,
+        NAME: 'Opacity (start)'
+    },
+    END_ALPHA: {
+        MIN: 0,
+        MAX: 1,
+        DEF: 1,
+        STEP: 0.0001,
+        NAME: 'Opacity (end)'
+    },
+    STEP_ALPHA: {
+        MIN: 0.00001,
+        MAX: 0.1,
+        DEF: 0.001,
+        STEP: 0.00001,
+        NAME: 'Opacity (step)'
+    }
+};
+
+
 PRESETS['Vines']          = {RENDER_MODE:RENDER_MODES.Darkness,BRANCH_PROBABILITY:0.2572,MAX_CONCURRENT:388,NUM_BRANCHES:4,MIN_RADIUS:0.1,MAX_RADIUS:69,MIN_WANDER_STEP:1.0184,MAX_WANDER_STEP:0.1702,MIN_GROWTH_RATE:10.6214,MAX_GROWTH_RATE:11.8251,MIN_SHRINK_RATE:0.99656,MAX_SHRINK_RATE:0.91265,MIN_DIVERGENCE:0.5101,MAX_DIVERGENCE:0.37466};
 PRESETS['Fibrous']        = {RENDER_MODE:RENDER_MODES.Segmented,BRANCH_PROBABILITY:0.05,MAX_CONCURRENT:800,NUM_BRANCHES:3,MIN_RADIUS:0.1,MAX_RADIUS:50,MIN_WANDER_STEP:0.28,MAX_WANDER_STEP:0.7,MIN_GROWTH_RATE:5,MAX_GROWTH_RATE:9,MIN_SHRINK_RATE:0.98,MAX_SHRINK_RATE:0.99,MIN_DIVERGENCE:0.01,MAX_DIVERGENCE:0.05};
 PRESETS['Graffiti']       = {RENDER_MODE:RENDER_MODES.Sketched,BRANCH_PROBABILITY:0.05,MAX_CONCURRENT:500,NUM_BRANCHES:6,MIN_RADIUS:0.15,MAX_RADIUS:70,MIN_WANDER_STEP:0.1197,MAX_WANDER_STEP:1.8269,MIN_GROWTH_RATE:13.66,MAX_GROWTH_RATE:17.35,MIN_SHRINK_RATE:0.95,MAX_SHRINK_RATE:0.98,MIN_DIVERGENCE:1.3268,MAX_DIVERGENCE:1.3885};
@@ -45,6 +141,15 @@ PRESETS['Wooly']          = {RENDER_MODE:RENDER_MODES.Segmented,BRANCH_PROBABILI
 PRESETS['Vegetable Root'] = {RENDER_MODE:RENDER_MODES.Darkness,BRANCH_PROBABILITY:0.06,MAX_CONCURRENT:437,NUM_BRANCHES:1,MIN_RADIUS:0.1,MAX_RADIUS:100,MIN_WANDER_STEP:0.05,MAX_WANDER_STEP:0.25,MIN_GROWTH_RATE:5,MAX_GROWTH_RATE:9,MIN_SHRINK_RATE:0.98,MAX_SHRINK_RATE:0.99,MIN_DIVERGENCE:0,MAX_DIVERGENCE:0.1};
 PRESETS['Hairball']       = {RENDER_MODE:RENDER_MODES.Sketched,BRANCH_PROBABILITY:0.6,MAX_CONCURRENT:800,MAX_DIVERGENCE:2.1,MAX_GROWTH_RATE:4.5,MAX_RADIUS:30,MAX_SHRINK_RATE:0.992,MAX_WANDER_STEP:0.2,MIN_DIVERGENCE:2,MIN_GROWTH_RATE:3.5,MIN_RADIUS:0.5,MIN_SHRINK_RATE:0.992,MIN_WANDER_STEP:0.1,NUM_BRANCHES:7};
 PRESETS['Intenstines']    = {RENDER_MODE:RENDER_MODES.Darkness,BRANCH_PROBABILITY:1,MAX_CONCURRENT:350,NUM_BRANCHES:3,MIN_RADIUS:0.1,MAX_RADIUS:100,MIN_WANDER_STEP:0.1,MAX_WANDER_STEP:0.72,MIN_GROWTH_RATE:0.9,MAX_GROWTH_RATE:6.15,MIN_SHRINK_RATE:0.935,MAX_SHRINK_RATE:0.999,MIN_DIVERGENCE:0.01,MAX_DIVERGENCE:0.05};
+
+// Make sure defaults are set in presets (easy to add new props)
+for(var preset_prop in PRESETS) {
+    for(var default_prop in DEFAULTS) {
+        if (typeof PRESETS[preset_prop][default_prop] == 'undefined') {
+            PRESETS[preset_prop][default_prop] = DEFAULTS[default_prop].DEF;
+        }
+    }
+}
 
 function configure(settings) {
 	for(var prop in settings) {
@@ -96,6 +201,12 @@ var Branch = function(x, y, theta, radius, scale, generation) {
 	this.wanderStep  = random(CONFIG.MIN_WANDER_STEP, CONFIG.MAX_WANDER_STEP);
 	this.growthRate  = random(CONFIG.MIN_GROWTH_RATE, CONFIG.MAX_GROWTH_RATE);
 	this.shrinkRate  = random(CONFIG.MIN_SHRINK_RATE, CONFIG.MAX_SHRINK_RATE);
+
+    // Store these in each branch to cycle
+	this.hue         = CONFIG.START_HUE;
+	this.saturation  = CONFIG.START_SATURATION;
+	this.lightness   = CONFIG.START_LIGHTNESS;
+	this.alpha       = CONFIG.START_ALPHA;
 }
 
 Branch.prototype = {
@@ -126,6 +237,12 @@ Branch.prototype = {
 
 				branch.generation = this.generation + 1;
 
+                // Copy parents color settings
+                branch.hue = this.hue;
+                branch.saturation = this.saturation;
+                branch.lightness = this.lightness;
+                branch.alpha = this.alpha;
+
 				BRANCHES.push(branch);
 			}
 
@@ -138,13 +255,37 @@ Branch.prototype = {
 		}
 	},
 
+    // Steps up/down a value to the min or max by 1 step
+    step: function(value, min, max, step) {
+        if (min < max) {
+            value += step;
+            if (value > max) value = max;
+        } else if (min > max) {
+            value -= step;
+            if (value < max) value = max;
+        }
+        return value;
+    },
+
 	render: function(context) {
 
 		if(this.growing) {
 
-			var x1, x2, y1, y2;
+			var x1, x2, y1, y2, color;
 			var scale = this.scale;
 			var radius = this.radius * scale;
+            
+            if (CONFIG.ENABLE_COLOR) {
+                // Cycle the colors and alpha
+                this.hue        = this.step(this.hue, CONFIG.START_HUE, CONFIG.END_HUE, CONFIG.STEP_HUE);
+                this.saturation = this.step(this.saturation, CONFIG.START_SATURATION, CONFIG.END_SATURATION, CONFIG.STEP_SATURATION);
+                this.lightness  = this.step(this.lightness, CONFIG.START_LIGHTNESS, CONFIG.END_LIGHTNESS, CONFIG.STEP_LIGHTNESS);
+                this.alpha      = this.step(this.alpha, CONFIG.STEP_ALPHA, CONFIG.END_ALPHA, CONFIG.STEP_ALPHA);
+
+                color = 'hsla('+this.hue+','+this.saturation+'%,'+this.lightness+'%,'+this.alpha+')';
+            } else {
+                color = false;
+            }
 
 			context.save();
 
@@ -165,7 +306,7 @@ Branch.prototype = {
 					}
 					
 					context.lineWidth = radius + scale;
-					context.strokeStyle = '#000';
+					context.strokeStyle = color ? color: '#000';
 					context.lineCap = 'round';
 					context.stroke();
 					context.closePath();
@@ -176,7 +317,7 @@ Branch.prototype = {
 					context.lineTo(this.x, this.y);
 
 					context.lineWidth = radius;
-					context.strokeStyle = '#FFF';
+					context.strokeStyle = color ? color: '#FFF';
 					context.lineCap = 'round';
 					context.stroke();
 
@@ -196,8 +337,8 @@ Branch.prototype = {
 					y2 = this.y + Math.sin(this.theta + HALF_PI) * radius;
 
 					context.lineWidth = 0.5 + scale;
-					context.strokeStyle = '#000';
-					context.fillStyle = '#FFF';
+					context.strokeStyle = color ? color: '#000';
+					context.fillStyle = color ? color: '#FFF';
 					context.lineCap = 'round';
 					
 					// Starting point
@@ -246,9 +387,9 @@ Branch.prototype = {
 					y2 = this.y + Math.sin(this.theta + HALF_PI) * radius;
 
 					context.lineWidth = scale;
-					context.strokeStyle = 'rgba(255,255,255,0.9)';
+					context.strokeStyle = color ? color: 'rgba(255,255,255,0.9)';
 					context.lineCap = 'round';
-					context.fillStyle = '#111';
+					context.fillStyle = color ? color: '#111';
 
 					// Starting point
 					if(this.generation === 1 && this.age === 1) {
@@ -264,7 +405,7 @@ Branch.prototype = {
 						context.shadowOffsetX = scale;
 						context.shadowOffsetY = scale;
 						context.shadowBlur    = scale;
-						context.shadowColor   = '#111';	
+						context.shadowColor   = color ? color: '#111';	
 					}	
 
 					// Draw ribbon
@@ -454,6 +595,19 @@ function randomise() {
 	CONFIG.MAX_SHRINK_RATE     = random(CONFIG.MIN_SHRINK_RATE,0.999);
 	CONFIG.MIN_DIVERGENCE      = random(0.0,PI);
 	CONFIG.MAX_DIVERGENCE      = random(CONFIG.MIN_DIVERGENCE,PI);
+    
+    for(var prop in DEFAULTS) {
+        CONFIG[prop] = random(DEFAULTS[prop].MIN, DEFAULTS[prop].MAX);
+    }
+    
+    // Get a random render mode
+    var render_modes = [];
+    for(var render_prop in RENDER_MODES) {
+        render_modes.push(RENDER_MODES[render_prop]);
+    }
+    var render_mode = Math.floor(random(0, render_modes.length));
+    CONFIG.RENDER_MODE = render_modes[render_mode];
+    
 	Recursion.init();
 	GUI.listenAll();
 }
@@ -476,6 +630,19 @@ GUI.add(CONFIG, 'MAX_SHRINK_RATE').name('Shrink (Max)').min(0.9).max(0.999).step
 GUI.add(CONFIG, 'MIN_DIVERGENCE').name('Divergeence (Min)').min(0.0).max(PI).step(0.01);
 GUI.add(CONFIG, 'MAX_DIVERGENCE').name('Divergeence (Max)').min(0.0).max(PI).step(0.01);
 
+// Add GUI for props
+for(var prop in DEFAULTS) {
+    GUI.add(CONFIG, prop).
+        name(DEFAULTS[prop].NAME).
+        min(DEFAULTS[prop].MIN).
+        max(DEFAULTS[prop].MAX).
+        step(DEFAULTS[prop].STEP);
+}
+
+// Add enable color checkbox
+CONFIG.ENABLE_COLOR = false;
+GUI.add(CONFIG, 'ENABLE_COLOR').name('Enable Color');
+
 GUI.add(preset, 'key').name('Preset Behaviors').options(keys).onChange(function(){
 	configure(PRESETS[preset.key]);
 	Recursion.init();
@@ -494,5 +661,4 @@ GUI.add(Recursion, 'init').name('Clear & Regenerate');
  * INIT
  * --------------------
  */
-
 Recursion.init();
