@@ -30,9 +30,9 @@
 var CONFIG  = {};
 var PRESETS = {};
 var RENDER_MODES = {
-	Darkness:  'darkness',
-	Segmented: 'segmented',
-	Sketched:  'sketched'
+  Darkness:  'darkness',
+  Segmented: 'segmented',
+  Sketched:  'sketched'
 };
 
 PRESETS['Vines']          = {RENDER_MODE:RENDER_MODES.Darkness,BRANCH_PROBABILITY:0.2572,MAX_CONCURRENT:388,NUM_BRANCHES:4,MIN_RADIUS:0.1,MAX_RADIUS:69,MIN_WANDER_STEP:1.0184,MAX_WANDER_STEP:0.1702,MIN_GROWTH_RATE:10.6214,MAX_GROWTH_RATE:11.8251,MIN_SHRINK_RATE:0.99656,MAX_SHRINK_RATE:0.91265,MIN_DIVERGENCE:0.5101,MAX_DIVERGENCE:0.37466};
@@ -47,9 +47,9 @@ PRESETS['Hairball']       = {RENDER_MODE:RENDER_MODES.Sketched,BRANCH_PROBABILIT
 PRESETS['Intenstines']    = {RENDER_MODE:RENDER_MODES.Darkness,BRANCH_PROBABILITY:1,MAX_CONCURRENT:350,NUM_BRANCHES:3,MIN_RADIUS:0.1,MAX_RADIUS:100,MIN_WANDER_STEP:0.1,MAX_WANDER_STEP:0.72,MIN_GROWTH_RATE:0.9,MAX_GROWTH_RATE:6.15,MIN_SHRINK_RATE:0.935,MAX_SHRINK_RATE:0.999,MIN_DIVERGENCE:0.01,MAX_DIVERGENCE:0.05};
 
 function configure(settings) {
-	for(var prop in settings) {
-		CONFIG[prop] = settings[prop];
-	}
+  for(var prop in settings) {
+    CONFIG[prop] = settings[prop];
+  }
 }
 
 configure(PRESETS['Vines']);
@@ -66,7 +66,7 @@ var HALF_PI      = Math.PI / 2;
 var BRANCHES     = [];
 
 function random(min, max) {
-	return min + Math.random() * (max - min);
+  return min + Math.random() * (max - min);
 }
 
 /**
@@ -77,231 +77,231 @@ function random(min, max) {
 
 var Branch = function(x, y, theta, radius, scale, generation) {
 
-	this.x           = x;
-	this.y           = y;
-	this.ox          = x;
-	this.oy          = y;
-	this.x1          = NaN;
-	this.x2          = NaN;
-	this.y1          = NaN;
-	this.y2          = NaN;
-	this.scale       = scale || 1.0;
-	this.theta       = theta;
-	this.oTheta      = theta;
-	this.radius      = radius;
-	this.generation  = generation || 1;
-	this.growing     = true;
-	this.age         = 0;
+  this.x           = x;
+  this.y           = y;
+  this.ox          = x;
+  this.oy          = y;
+  this.x1          = NaN;
+  this.x2          = NaN;
+  this.y1          = NaN;
+  this.y2          = NaN;
+  this.scale       = scale || 1.0;
+  this.theta       = theta;
+  this.oTheta      = theta;
+  this.radius      = radius;
+  this.generation  = generation || 1;
+  this.growing     = true;
+  this.age         = 0;
 
-	this.wanderStep  = random(CONFIG.MIN_WANDER_STEP, CONFIG.MAX_WANDER_STEP);
-	this.growthRate  = random(CONFIG.MIN_GROWTH_RATE, CONFIG.MAX_GROWTH_RATE);
-	this.shrinkRate  = random(CONFIG.MIN_SHRINK_RATE, CONFIG.MAX_SHRINK_RATE);
+  this.wanderStep  = random(CONFIG.MIN_WANDER_STEP, CONFIG.MAX_WANDER_STEP);
+  this.growthRate  = random(CONFIG.MIN_GROWTH_RATE, CONFIG.MAX_GROWTH_RATE);
+  this.shrinkRate  = random(CONFIG.MIN_SHRINK_RATE, CONFIG.MAX_SHRINK_RATE);
 }
 
 Branch.prototype = {
 
-	update: function() {
-		
-		if(this.growing) {
-			
-			this.ox = this.x;
-			this.oy = this.y;
-			this.oTheta = this.theta;
+  update: function() {
+    
+    if(this.growing) {
+      
+      this.ox = this.x;
+      this.oy = this.y;
+      this.oTheta = this.theta;
 
-			this.theta += random(-this.wanderStep, this.wanderStep);
+      this.theta += random(-this.wanderStep, this.wanderStep);
 
-			this.x += Math.cos(this.theta) * this.growthRate * this.scale;
-			this.y += Math.sin(this.theta) * this.growthRate * this.scale;
+      this.x += Math.cos(this.theta) * this.growthRate * this.scale;
+      this.y += Math.sin(this.theta) * this.growthRate * this.scale;
 
-			this.scale  *= this.shrinkRate;
+      this.scale  *= this.shrinkRate;
 
-			// Branch
-			if(BRANCHES.length < CONFIG.MAX_CONCURRENT && Math.random() < CONFIG.BRANCH_PROBABILITY) {
-				
-				var offset = random(CONFIG.MIN_DIVERGENCE, CONFIG.MAX_DIVERGENCE);
-				var theta  = this.theta + offset * (Math.random() < 0.5 ? 1 : -1);
-				var scale  = this.scale * 0.95;
-				var radius = this.radius * scale;
-				var branch = new Branch(this.x, this.y, theta, radius, scale);
+      // Branch
+      if(BRANCHES.length < CONFIG.MAX_CONCURRENT && Math.random() < CONFIG.BRANCH_PROBABILITY) {
+        
+        var offset = random(CONFIG.MIN_DIVERGENCE, CONFIG.MAX_DIVERGENCE);
+        var theta  = this.theta + offset * (Math.random() < 0.5 ? 1 : -1);
+        var scale  = this.scale * 0.95;
+        var radius = this.radius * scale;
+        var branch = new Branch(this.x, this.y, theta, radius, scale);
 
-				branch.generation = this.generation + 1;
+        branch.generation = this.generation + 1;
 
-				BRANCHES.push(branch);
-			}
+        BRANCHES.push(branch);
+      }
 
-			// Limit
-			if(this.radius * this.scale <= CONFIG.MIN_RADIUS) {
-				this.growing = false;
-			}
+      // Limit
+      if(this.radius * this.scale <= CONFIG.MIN_RADIUS) {
+        this.growing = false;
+      }
 
-			this.age++;
-		}
-	},
+      this.age++;
+    }
+  },
 
-	render: function(context) {
+  render: function(context) {
 
-		if(this.growing) {
+    if(this.growing) {
 
-			var x1, x2, y1, y2;
-			var scale = this.scale;
-			var radius = this.radius * scale;
+      var x1, x2, y1, y2;
+      var scale = this.scale;
+      var radius = this.radius * scale;
 
-			context.save();
+      context.save();
 
-			switch(CONFIG.RENDER_MODE) {
+      switch(CONFIG.RENDER_MODE) {
 
-				case RENDER_MODES.Segmented :
+        case RENDER_MODES.Segmented :
 
-					// Draw outline
-					context.beginPath();
-					context.moveTo(this.ox, this.oy);
-					context.lineTo(this.x, this.y);
-					
-					if(radius > 5.0) {
-						context.shadowOffsetX = 1;
-						context.shadowOffsetY = 1;
-						context.shadowBlur    = scale;
-						context.shadowColor   = 'rgba(0,0,0,0.05)';	
-					}
-					
-					context.lineWidth = radius + scale;
-					context.strokeStyle = '#000';
-					context.lineCap = 'round';
-					context.stroke();
-					context.closePath();
-					
-					// Draw fill
-					context.beginPath();
-					context.moveTo(this.ox, this.oy);
-					context.lineTo(this.x, this.y);
+          // Draw outline
+          context.beginPath();
+          context.moveTo(this.ox, this.oy);
+          context.lineTo(this.x, this.y);
+          
+          if(radius > 5.0) {
+            context.shadowOffsetX = 1;
+            context.shadowOffsetY = 1;
+            context.shadowBlur    = scale;
+            context.shadowColor   = 'rgba(0,0,0,0.05)'; 
+          }
+          
+          context.lineWidth = radius + scale;
+          context.strokeStyle = '#000';
+          context.lineCap = 'round';
+          context.stroke();
+          context.closePath();
+          
+          // Draw fill
+          context.beginPath();
+          context.moveTo(this.ox, this.oy);
+          context.lineTo(this.x, this.y);
 
-					context.lineWidth = radius;
-					context.strokeStyle = '#FFF';
-					context.lineCap = 'round';
-					context.stroke();
+          context.lineWidth = radius;
+          context.strokeStyle = '#FFF';
+          context.lineCap = 'round';
+          context.stroke();
 
-					context.closePath();
+          context.closePath();
 
-					break;
-				
-				case RENDER_MODES.Sketched :
+          break;
+        
+        case RENDER_MODES.Sketched :
 
-					radius *= 0.5;
-					radius += 0.5;
+          radius *= 0.5;
+          radius += 0.5;
 
-					x1 = this.x + Math.cos(this.theta - HALF_PI) * radius;
-					x2 = this.x + Math.cos(this.theta + HALF_PI) * radius;
+          x1 = this.x + Math.cos(this.theta - HALF_PI) * radius;
+          x2 = this.x + Math.cos(this.theta + HALF_PI) * radius;
 
-					y1 = this.y + Math.sin(this.theta - HALF_PI) * radius;
-					y2 = this.y + Math.sin(this.theta + HALF_PI) * radius;
+          y1 = this.y + Math.sin(this.theta - HALF_PI) * radius;
+          y2 = this.y + Math.sin(this.theta + HALF_PI) * radius;
 
-					context.lineWidth = 0.5 + scale;
-					context.strokeStyle = '#000';
-					context.fillStyle = '#FFF';
-					context.lineCap = 'round';
-					
-					// Starting point
-					if(this.generation === 1 && this.age === 1) {
-						context.beginPath();
-						context.arc(this.x, this.y, radius, 0, TWO_PI);
-						context.stroke();
-						context.fill();
-					}
+          context.lineWidth = 0.5 + scale;
+          context.strokeStyle = '#000';
+          context.fillStyle = '#FFF';
+          context.lineCap = 'round';
+          
+          // Starting point
+          if(this.generation === 1 && this.age === 1) {
+            context.beginPath();
+            context.arc(this.x, this.y, radius, 0, TWO_PI);
+            context.stroke();
+            context.fill();
+          }
 
-					// Draw sides
-					if(this.age > 1) {
-						context.beginPath();
-						context.moveTo(this.x1, this.y1);
-						context.lineTo(x1, y1);
-						context.moveTo(this.x2, this.y2);
-						context.lineTo(x2, y2);
-						context.stroke();
-					}
+          // Draw sides
+          if(this.age > 1) {
+            context.beginPath();
+            context.moveTo(this.x1, this.y1);
+            context.lineTo(x1, y1);
+            context.moveTo(this.x2, this.y2);
+            context.lineTo(x2, y2);
+            context.stroke();
+          }
 
-					// Draw ribbon
-					context.beginPath();
-					context.moveTo(this.x1, this.y1);
-					context.lineTo(x1, y1);
-					context.lineTo(x2, y2);
-					context.lineTo(this.x2, this.y2);
-					context.closePath();
-					context.fill();
+          // Draw ribbon
+          context.beginPath();
+          context.moveTo(this.x1, this.y1);
+          context.lineTo(x1, y1);
+          context.lineTo(x2, y2);
+          context.lineTo(this.x2, this.y2);
+          context.closePath();
+          context.fill();
 
-					this.x1 = x1;
-					this.x2 = x2;
+          this.x1 = x1;
+          this.x2 = x2;
 
-					this.y1 = y1;
-					this.y2 = y2;
+          this.y1 = y1;
+          this.y2 = y2;
 
-					break;
+          break;
 
-				case RENDER_MODES.Darkness :
+        case RENDER_MODES.Darkness :
 
-					radius *= 0.5;
+          radius *= 0.5;
 
-					x1 = this.x + Math.cos(this.theta - HALF_PI) * radius;
-					x2 = this.x + Math.cos(this.theta + HALF_PI) * radius;
+          x1 = this.x + Math.cos(this.theta - HALF_PI) * radius;
+          x2 = this.x + Math.cos(this.theta + HALF_PI) * radius;
 
-					y1 = this.y + Math.sin(this.theta - HALF_PI) * radius;
-					y2 = this.y + Math.sin(this.theta + HALF_PI) * radius;
+          y1 = this.y + Math.sin(this.theta - HALF_PI) * radius;
+          y2 = this.y + Math.sin(this.theta + HALF_PI) * radius;
 
-					context.lineWidth = scale;
-					context.strokeStyle = 'rgba(255,255,255,0.9)';
-					context.lineCap = 'round';
-					context.fillStyle = '#111';
+          context.lineWidth = scale;
+          context.strokeStyle = 'rgba(255,255,255,0.9)';
+          context.lineCap = 'round';
+          context.fillStyle = '#111';
 
-					// Starting point
-					if(this.generation === 1 && this.age === 1) {
-						context.beginPath();
-						context.arc(this.x, this.y, radius, 0, TWO_PI);
-						context.closePath();
-						context.fill();
-						context.stroke();
-					}
-					
-					// Shadow
-					if(scale > 0.05) {
-						context.shadowOffsetX = scale;
-						context.shadowOffsetY = scale;
-						context.shadowBlur    = scale;
-						context.shadowColor   = '#111';	
-					}	
+          // Starting point
+          if(this.generation === 1 && this.age === 1) {
+            context.beginPath();
+            context.arc(this.x, this.y, radius, 0, TWO_PI);
+            context.closePath();
+            context.fill();
+            context.stroke();
+          }
+          
+          // Shadow
+          if(scale > 0.05) {
+            context.shadowOffsetX = scale;
+            context.shadowOffsetY = scale;
+            context.shadowBlur    = scale;
+            context.shadowColor   = '#111'; 
+          } 
 
-					// Draw ribbon
-					context.beginPath();
-					context.moveTo(this.x1, this.y1);
-					context.lineTo(x1, y1);
-					context.lineTo(x2, y2);
-					context.lineTo(this.x2, this.y2);
-					context.closePath();
-					context.fill();
+          // Draw ribbon
+          context.beginPath();
+          context.moveTo(this.x1, this.y1);
+          context.lineTo(x1, y1);
+          context.lineTo(x2, y2);
+          context.lineTo(this.x2, this.y2);
+          context.closePath();
+          context.fill();
 
-					// Draw sides
-					if(this.age > 1 && scale > 0.1) {
-						context.beginPath();
-						context.moveTo(this.x1, this.y1);
-						context.lineTo(x1, y1);
-						context.moveTo(this.x2, this.y2);
-						context.lineTo(x2, y2);
-						context.stroke();
-					}
+          // Draw sides
+          if(this.age > 1 && scale > 0.1) {
+            context.beginPath();
+            context.moveTo(this.x1, this.y1);
+            context.lineTo(x1, y1);
+            context.moveTo(this.x2, this.y2);
+            context.lineTo(x2, y2);
+            context.stroke();
+          }
 
-					this.x1 = x1;
-					this.x2 = x2;
+          this.x1 = x1;
+          this.x2 = x2;
 
-					this.y1 = y1;
-					this.y2 = y2;
+          this.y1 = y1;
+          this.y2 = y2;
 
-					break;
-			}
-			
-			context.restore();
-		}
-	},
+          break;
+      }
+      
+      context.restore();
+    }
+  },
 
-	destroy: function() {
-		
-	}
+  destroy: function() {
+    
+  }
 };
 
 /**
@@ -312,116 +312,122 @@ Branch.prototype = {
 
 var Recursion = new function() {
 
-	var started      = false;
-	var $canvas      = $('#canvas');
-	var $branchCount = $('#output .branchCount');
-	var canvas       = $canvas[0];
-	var context      = canvas.getContext('2d');
+  var started      = false;
+  var $canvas      = $('#canvas');
+  var $branchCount = $('#output .branchCount');
+  var canvas       = $canvas[0];
+  var context      = canvas.getContext('2d');
 
-	function spawn(x, y) {
+  function spawn(x, y) {
 
-		var theta, radius;
+    var theta, radius;
 
-		for(var i = 0; i < CONFIG.NUM_BRANCHES; i++) {
-			theta = (i / CONFIG.NUM_BRANCHES) * TWO_PI;
-			radius = CONFIG.MAX_RADIUS;
-			BRANCHES.push(new Branch(x, y, theta - HALF_PI, radius));
-		}
-	}
+    for(var i = 0; i < CONFIG.NUM_BRANCHES; i++) {
+      theta = (i / CONFIG.NUM_BRANCHES) * TWO_PI;
+      radius = CONFIG.MAX_RADIUS;
+      BRANCHES.push(new Branch(x, y, theta - HALF_PI, radius));
+    }
+  }
 
-	function update() {
+  function update() {
 
-		//cancelRequestAnimFrame(update);
-		requestAnimFrame(update);
+    //cancelRequestAnimFrame(update);
+    requestAnimFrame(update);
 
-		var i, n, branch;
+    var i, n, branch;
 
-		for(i = 0, n = BRANCHES.length; i < n; i++) {
-			branch = BRANCHES[i];
-			branch.update();
-			branch.render(context);
-		}
+    for(i = 0, n = BRANCHES.length; i < n; i++) {
+      branch = BRANCHES[i];
+      branch.update();
+      branch.render(context);
+    }
 
-		// Strip dead branches
-		for(i = BRANCHES.length - 1; i >= 0; i--) {
-			if(!BRANCHES[i].growing) {
-				BRANCHES.splice(i,1);
-			}
-		}
+    // Strip dead branches
+    for(i = BRANCHES.length - 1; i >= 0; i--) {
+      if(!BRANCHES[i].growing) {
+        BRANCHES.splice(i,1);
+      }
+    }
 
-		var count = BRANCHES.length.toString();
-		while(count.length < 3) { count = '0' + count; }
-		$branchCount.text('Branch count: ' + count);
-	}
+    var count = BRANCHES.length.toString();
+    while(count.length < 3) { count = '0' + count; }
+    $branchCount.text('Branch count: ' + count);
+  }
 
-	function onClick(e) {
+  function onClick(e) {
 
-		Recursion.reset();
-		spawn(e.offsetX, e.offsetY);
-	}
+    Recursion.reset();
+    spawn(e.offsetX, e.offsetY);
+  }
 
-	function onResize(e) {
+  function onResize(e) {
 
-		canvas.width  = window.innerWidth;
-		canvas.height = window.innerHeight;
+    var width = window.innerWidth;
+    var height = window.innerWidth;
+    var scale = window.devicePixelRatio || 1;
+    canvas.width  = width * scale;
+    canvas.height = height * scale;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    context.scale(scale, scale);
 
-		Recursion.reset();
-		spawn(window.innerWidth / 2, window.innerHeight / 2);
-	}
+    Recursion.reset();
+    spawn(window.innerWidth / 2, window.innerHeight / 2);
+  }
 
-	return {
+  return {
 
-		init: function() {
+    init: function() {
 
-			onResize();
+      onResize();
 
-			if(!started) {
-				started = true;
-				$(window).resize(onResize);
-				$canvas.click(onClick);
-				update();
-			}
-		},
+      if(!started) {
+        started = true;
+        $(window).resize(onResize);
+        $canvas.click(onClick);
+        update();
+      }
+    },
 
-		reset: function() {
+    reset: function() {
 
-			for(var i = 0, n = BRANCHES.length; i < n; i++) {
-				BRANCHES[i].destroy();
-			}
+      for(var i = 0, n = BRANCHES.length; i < n; i++) {
+        BRANCHES[i].destroy();
+      }
 
-			BRANCHES = [];
-		},
+      BRANCHES = [];
+    },
 
-		save: function() {
-			
-			var image = canvas.toDataURL('image/png');
+    save: function() {
+      
+      var image = canvas.toDataURL('image/png');
 
-			var win = window.open('about:blank', '_blank', 'width=1000,height=700');
+      var win = window.open('about:blank', '_blank', 'width=1000,height=700');
 
-			var html = $('<html>');
-			var head = $('<head>');
-			var body = $('<body>');
+      var html = $('<html>');
+      var head = $('<head>');
+      var body = $('<body>');
 
-			body.css({
-				background: '#f2f2f2',
-				padding: 0,
-				margin: 0
-			});
+      body.css({
+        background: '#f2f2f2',
+        padding: 0,
+        margin: 0
+      });
 
-			head.append($('<title>Recursion &raquo Right Click &amp; Save the Image Below</title>'));
-			body.append($('<img src="' + image + '"/>'));
+      head.append($('<title>Recursion &raquo Right Click &amp; Save the Image Below</title>'));
+      body.append($('<img src="' + image + '"/>'));
 
-			html.append(head);
-			html.append(body);
+      html.append(head);
+      html.append(body);
 
-			win.document.write('<!DOCTYPE html>' + html.html());
-			win.document.close();
-		},
+      win.document.write('<!DOCTYPE html>' + html.html());
+      win.document.close();
+    },
 
-		clear: function() {
-			canvas.width = canvas.width;
-		}
-	};
+    clear: function() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  };
 }
 
 /**
@@ -431,9 +437,9 @@ var Recursion = new function() {
  */
 
 function saveConfig() {
-	var config = [];
-	for(var i in CONFIG) { config.push(i + ':' + CONFIG[i]); }
-	console.log("PRESETS['__name__'] = {" + config.join(',') + "};");
+  var config = [];
+  for(var i in CONFIG) { config.push(i + ':' + CONFIG[i]); }
+  console.log("PRESETS['__name__'] = {" + config.join(',') + "};");
 }
 
 // Build preset map for GUI
@@ -441,21 +447,21 @@ var preset = {key:''}, keys = {};
 for(var i in PRESETS) { keys[i] = i; }
 
 function randomise() {
-	CONFIG.BRANCH_PROBABILITY  = random(0.01,1.0);
-	CONFIG.MAX_CONCURRENT      = random(10,1000);
-	CONFIG.NUM_BRANCHES        = random(1,20);
-	CONFIG.MIN_RADIUS          = random(0.1,2.0);
-	CONFIG.MAX_RADIUS          = random(CONFIG.MIN_RADIUS,100);
-	CONFIG.MIN_WANDER_STEP     = random(0.1,PI);
-	CONFIG.MAX_WANDER_STEP     = random(CONFIG.MIN_WANDER_STEP,PI);
-	CONFIG.MIN_GROWTH_RATE     = random(0.1,20);
-	CONFIG.MAX_GROWTH_RATE     = random(CONFIG.MIN_GROWTH_RATE,20);
-	CONFIG.MIN_SHRINK_RATE     = random(0.9,0.999);
-	CONFIG.MAX_SHRINK_RATE     = random(CONFIG.MIN_SHRINK_RATE,0.999);
-	CONFIG.MIN_DIVERGENCE      = random(0.0,PI);
-	CONFIG.MAX_DIVERGENCE      = random(CONFIG.MIN_DIVERGENCE,PI);
-	Recursion.init();
-	GUI.listenAll();
+  CONFIG.BRANCH_PROBABILITY  = random(0.01,1.0);
+  CONFIG.MAX_CONCURRENT      = random(10,1000);
+  CONFIG.NUM_BRANCHES        = random(1,20);
+  CONFIG.MIN_RADIUS          = random(0.1,2.0);
+  CONFIG.MAX_RADIUS          = random(CONFIG.MIN_RADIUS,100);
+  CONFIG.MIN_WANDER_STEP     = random(0.1,PI);
+  CONFIG.MAX_WANDER_STEP     = random(CONFIG.MIN_WANDER_STEP,PI);
+  CONFIG.MIN_GROWTH_RATE     = random(0.1,20);
+  CONFIG.MAX_GROWTH_RATE     = random(CONFIG.MIN_GROWTH_RATE,20);
+  CONFIG.MIN_SHRINK_RATE     = random(0.9,0.999);
+  CONFIG.MAX_SHRINK_RATE     = random(CONFIG.MIN_SHRINK_RATE,0.999);
+  CONFIG.MIN_DIVERGENCE      = random(0.0,PI);
+  CONFIG.MAX_DIVERGENCE      = random(CONFIG.MIN_DIVERGENCE,PI);
+  Recursion.init();
+  GUI.listenAll();
 }
 
 var GUI = new DAT.GUI({width: 340});
@@ -477,14 +483,15 @@ GUI.add(CONFIG, 'MIN_DIVERGENCE').name('Divergeence (Min)').min(0.0).max(PI).ste
 GUI.add(CONFIG, 'MAX_DIVERGENCE').name('Divergeence (Max)').min(0.0).max(PI).step(0.01);
 
 GUI.add(preset, 'key').name('Preset Behaviors').options(keys).onChange(function(){
-	configure(PRESETS[preset.key]);
-	Recursion.init();
-	GUI.listenAll();
+  configure(PRESETS[preset.key]);
+  Recursion.init();
+  GUI.listenAll();
 });
 GUI.add(CONFIG, 'RENDER_MODE').name('Render Style').options(RENDER_MODES).onChange(Recursion.init);
 GUI.add(Recursion, 'save').name('Save as PNG');
 GUI.add(Recursion, 'clear').name('Clear').onFire(Recursion.reset);
 GUI.add(Recursion, 'init').name('Clear & Regenerate');
+GUI.close();
 
 //GUI.add(this, 'randomise').name('Randomise');
 //GUI.add(this, 'saveConfig').name('Save Config');
