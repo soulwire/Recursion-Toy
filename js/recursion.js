@@ -363,7 +363,7 @@ var Recursion = new function() {
   function onResize(e) {
 
     var width = window.innerWidth;
-    var height = window.innerWidth;
+    var height = window.innerHeight;
     var scale = window.devicePixelRatio || 1;
     canvas.width  = width * scale;
     canvas.height = height * scale;
